@@ -6,3 +6,4 @@ export const semiGrey = '#efefef';
 export const borderGrey = '#e9e9e9';
 export const emtypUser = '#c9c9c9';
 export const orange = '#E95434';
+export const progressModal = '200, 200, 200';

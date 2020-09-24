@@ -70,7 +70,8 @@ export const UserNameDiv = styled.h3`
   font-weight: bold;
   text-align: left;
   min-width: 100%;
-  margin-bottom: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
   `
 
 export const EmptyUserImage = styled.div`  
