@@ -31,18 +31,18 @@ type Userdata = {
 
 const User = (props: Userdata) => {
   const { ingressData, login, personalData, rawData } = props;
-  
+
   /* Preparing data for Card items */
   const personalDataInput = [
-    {'label': 'Gender', 'text': personalData.gender}, 
-    {'label': 'Date of birth', 'text': personalData.dateOfBirth},
-    {'label': 'Address', 'text': personalData.address},
-    {'label': 'Nationality', 'text': personalData.nationality}
+    { 'label': 'Gender', 'text': personalData.gender },
+    { 'label': 'Date of birth', 'text': personalData.dateOfBirth },
+    { 'label': 'Address', 'text': personalData.address },
+    { 'label': 'Nationality', 'text': personalData.nationality }
   ];
   const loginData = [
-    {'label': 'Registered', 'text': login.registred}, 
-    {'label': 'Username', 'text': login.username},
-    {'label': 'UUID', 'text': login.uuid}
+    { 'label': 'Registered', 'text': login.registred },
+    { 'label': 'Username', 'text': login.username },
+    { 'label': 'UUID', 'text': login.uuid }
   ];
 
   return (

@@ -1,6 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
-import {white, lightGrey, mediumGrey, semiGrey, borderGrey} from '../colors';
+import styled, { css } from 'styled-components';
+import { white, lightGrey, mediumGrey, semiGrey, borderGrey } from '../colors';
 
 export const CardBody = styled.div`
   background-color: ${white};
@@ -36,29 +36,23 @@ export const IconText = styled.span`
 `
 
 export const Column = styled.span`
-flex: 1;
+  flex: 1;
 `
 
-export const CardHeaderCol1 = styled.div`
+export const CardHeaderColumn1 = styled.div`
   display: table-cell;
   vertical-align: top;
   padding: 10px;
 `
 
-export const CardHeaderCol2 = styled.div`
-  display: table-cell;
-  vertical-align: top;
-  padding: 10px;
+export const CardHeaderColumn2 = styled(CardHeaderColumn1)`
   padding-left: 40px;
   padding-right: 40px;
   text-align: left;
   flex-grow: 1;
 `
 
-export const CardHeaderCol3 = styled.div`
-  display: table-cell;
-  vertical-align: top;
-  padding: 10px;
+export const CardHeaderColumn3 = styled(CardHeaderColumn1)`
   padding-left: 40px;
   padding-right: 40px;
   text-align: left;

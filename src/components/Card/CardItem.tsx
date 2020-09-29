@@ -1,20 +1,20 @@
 import React from 'react';
-import {CardBody, CardTitle, CardLabel, CardText, Column, Container} from "./styles";
+import { CardBody, CardTitle, CardLabel, CardText, Column, Container } from "./styles";
 
 type Values = {
   label: string,
   text: any
 }
 
-type CardData =  {
+type CardData = {
   title: string
   data: Values[]
 }
 
 const CardItem = (props: CardData) => {
-  const {title, data} = props;
+  const { title, data } = props;
 
-  return(
+  return (
     <CardBody>
       <CardTitle>{title}</CardTitle>
       <Container>
@@ -22,7 +22,7 @@ const CardItem = (props: CardData) => {
           <Column key={`col-${index}`}>
             <CardLabel key={`data-${index}`}>{value.label}</CardLabel><CardText>{value.text}</CardText>
           </Column>
-          ))
+        ))
         }
       </Container>
     </CardBody>

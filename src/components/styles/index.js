@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {progressModal, darkGrey} from '../colors';
+import { progressModal, darkGrey } from '../colors';
 
 export const ProgressHolder = styled.div`
   margin: auto;
@@ -40,3 +40,9 @@ export const Body = styled.div`
   margin: 0px;
   padding: 20px 80px;
 `
+
+
+export const LeftPadding = styled.span`
+  padding-left: 5px;
+`
+

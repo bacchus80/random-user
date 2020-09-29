@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
 import User from './components/User/User';
-import { CircularProgress } from '@material-ui/core';
+import { Fade, CircularProgress, IconButton } from '@material-ui/core';
 import { Button } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import AutorenewIcon from '@material-ui/icons/Autorenew';
-import {orange} from './components/colors';
-import {AppHolder, AppHeader, Body, ProgressHolder, ProgressModal} from "./components/styles";
+import CloseIcon from '@material-ui/icons/Close';
+import { orange } from './components/colors';
+import { AppHolder, AppHeader, Body, ProgressHolder, ProgressModal, LeftPadding } from "./components/styles";
 
 
 class App extends Component {
 
+
   state = {
+    showAlert: false,
     ingressData: {
       userImageUrl: '',
       titleAndName: '',
@@ -32,55 +35,54 @@ class App extends Component {
     },
     rawData: {},
     fetchingData: false,
-    callback: true,
     userLoadedOnce: false
   }
 
+
   fetchDataFromAPI = () => {
     fetch(`${process.env.REACT_APP_URL_RANDOM_USER}`)
-    .then(res => res.json())
-    .then((data) => {
+      .then(res => res.json())
+      .then((data) => {
 
-      const rawData = data.results[0];
-      const dateOfBirth = rawData.dob.date.split('T')[0];
-      const registeredDate = rawData.registered.date.split('T')[0];
-      const ingressData = {
-        userImageUrl: rawData.picture.large, 
-        titleAndName: rawData.name.title + ' ' + rawData.name.first + ' ' + rawData.name.last,
-        age : rawData.dob.age,
-        location : rawData.location.city + ' ' + rawData.location.country,
-        phone: rawData.phone,
-        cell: rawData.cell, 
-        email: rawData.email
-      };
-      const personalData = {
-        gender: rawData.gender,
-        dateOfBirth: dateOfBirth, 
-        address : rawData.location.street.name + ' ' + rawData.location.street.number + ', '+rawData.location.city, 
-        nationality : rawData.nat
-      };
-      const login = {
-        registred: registeredDate,
-        uuid: rawData.login.uuid,
-        username: rawData.login.username
-      };
+        const rawData = data.results[0];
+        const dateOfBirth = rawData.dob.date.split('T')[0];
+        const registeredDate = rawData.registered.date.split('T')[0];
+        const ingressData = {
+          userImageUrl: rawData.picture.large,
+          titleAndName: rawData.name.title + ' ' + rawData.name.first + ' ' + rawData.name.last,
+          age: rawData.dob.age,
+          location: rawData.location.city + ' ' + rawData.location.country,
+          phone: rawData.phone,
+          cell: rawData.cell,
+          email: rawData.email
+        };
+        const personalData = {
+          gender: rawData.gender,
+          dateOfBirth: dateOfBirth,
+          address: rawData.location.street.name + ' ' + rawData.location.street.number + ', ' + rawData.location.city,
+          nationality: rawData.nat
+        };
+        const login = {
+          registred: registeredDate,
+          uuid: rawData.login.uuid,
+          username: rawData.login.username
+        };
 
-      this.setState({ 
-        callback: true, 
-        fetchingData: false, 
-        ingressData: ingressData, 
-        personalData: personalData, 
-        login: login, 
-        raw: rawData
+        this.setState({
+          fetchingData: false,
+          ingressData: ingressData,
+          personalData: personalData,
+          login: login,
+          raw: rawData
+        })
       })
-    })
-    .catch(this.handleError)
+      .catch(this.handleError)
   }
 
 
   handleClick = () => {
-    this.setState({ callback: true, fetchingData: true, userLoadedOnce: true });
-    setTimeout(this.fetchDataFromAPI, 500);
+    this.setState({ fetchingData: true, userLoadedOnce: true });
+    setTimeout(this.fetchDataFromAPI, 800);
   }
 
 
@@ -112,31 +114,50 @@ class App extends Component {
       address: '',
       nationality: ''
     };
-    this.setState({ callback: false, fetchingData: false, ingressData: ingressData, personalData: personalData, login: loginData, raw: {} })
+    this.setState({ showAlert: true, fetchingData: false, ingressData: ingressData, personalData: personalData, login: loginData, raw: {} })
   }
 
+
   render() {
+    const checked = true;
+    const time = 1000;
     return (
       <AppHolder>
-        <AppHeader>Load and display user from {process.env.REACT_APP_URL_RANDOM_USER}</AppHeader>
+        <AppHeader>Load and display user from <LeftPadding>{process.env.REACT_APP_URL_RANDOM_USER}</LeftPadding></AppHeader>
         <Body>
           <div>
-            {!this.state.callback &&
-              <Alert variant="filled" severity="error">
-                Something went wrong when loading user data
+            {this.state.showAlert &&
+              <Fade timeout={time} in={checked}>
+                <Alert
+                  variant="filled"
+                  severity="error"
+                  action={
+                    <IconButton
+                      aria-label="close"
+                      color="inherit"
+                      size="small"
+                      onClick={() => {
+                        this.setState({ showAlert: false });
+                      }}
+                    >
+                      <CloseIcon fontSize="inherit" />
+                    </IconButton>
+                  }
+                >
+                  Something went wrong when fetching user data
               </Alert>
+              </Fade>
             }
             <User ingressData={this.state.ingressData} personalData={this.state.personalData} login={this.state.login} rawData={this.state.rawData} />
           </div>
-          
-          {this.state.fetchingData && 
+
+          {this.state.fetchingData &&
             <ProgressModal>
               <ProgressHolder>
-                <CircularProgress style={{color: `${orange}`}} />
+                <CircularProgress style={{ color: `${orange}` }} />
               </ProgressHolder>
             </ProgressModal>
           }
-          
 
           <Button variant="outlined" color="primary" style={{ borderColor: `${orange}`, color: `${orange}` }} onClick={this.handleClick}><AutorenewIcon /> {!this.state.userLoadedOnce ? 'Load user' : 'Reload user'}</Button>
         </Body>
